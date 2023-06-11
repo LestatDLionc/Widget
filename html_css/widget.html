@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Video widget</title>
-    <link rel="stylesheet" href="C:\Widget\css\widget.css">
     <style>
       .container {
         display: flex;
@@ -42,14 +41,14 @@
         margin-bottom: 5px;
         margin-top: 5px;;
       }
-      .video-container {
+      .player {
             position: relative;
             padding-bottom: 56.25%;
             border-radius: 0px 30px 0px 0px;
             
         }
 
-        .video-container video {
+        .player video {
             position: absolute;
             top: 0;
             left: 0;
@@ -57,7 +56,7 @@
             height: 100%;
         }
         button {
-          margin-left: 10px;;
+          margin-left: 10px;
         }
        
      
@@ -70,16 +69,67 @@
         <h1>This is a video widget.</h1>
       </div>
       <div class="column">
-        <div class="video-container">
-        <video autoplay loop class="video player" src="Catwalk.mp4" controls>
-        </video>
+        <div class="player">
+          <video autoplay="1" mute="1" class="video player" controls loop>
+            <source src="Catwalk.mp4">
+          </video>
         </div>
         <div class="video-controls">
-        <button id="play-pause-button">PLAY</button>
-        <input type="range" name="volume" class="player_slider" min="0" max="1" step="0.05" value="1" id="slider">
-        </div>      
+          <button class="playPauseButton">Play/Pause</button>
+          <button id="mute-unmute-button">MUTE</button>
+          <!--<input type="range" value="0" min="0" max="100" step="100"  id="slider">-->    
         </div>
-    </div>
-    <script src="widgetScript.js"></script>
+    <script>
+      /*Get elements*/
+      const player = document.querySelector('.player');
+      const video = player.querySelector('.video');
+      const button = player.querySelector('.video-controls button');
+
+
+      /*Build functions*/
+      function playPause() {
+          if (video.paused) {
+              video.play();
+              console.log('>>');
+          } else {
+              video.pause();
+              console.log('||');
+          }
+          }
+
+      /*Event listeners*/
+      video.addEventListener('click', playPause);
+
+      document.addEventListener('DOMContentLoaded', function() {
+            var video = document.querySelector('.video.player');
+            var playPauseButton = document.getElementById('playPauseButton');
+            var muteUnmuteButton = document.getElementById('mute-unmute-button');
+            /*var volumeSlider = document.getElementById('slider');*/
+
+            playPauseButton.addEventListener('click', function() {
+                if (video.paused) {
+                    video.play();
+                    playPauseButton.textContent = 'PAUSE';
+                } else {
+                    video.pause();
+                    playPauseButton.textContent = 'PLAY';
+                }
+            });
+
+            muteUnmuteButton.addEventListener('click', function() {
+                if (video.muted) {
+                    video.muted = false;
+                    muteUnmuteButton.textContent = 'MUTE';
+                } else {
+                    video.muted = true;
+                    muteUnmuteButton.textContent = 'UNMUTE';
+                }
+            });
+
+            /*volumeSlider.addEventListener('input', function() {
+                video.volume = volumeSlider.value;
+            });*/
+        });
+    </script>
   </body>
 </html>
